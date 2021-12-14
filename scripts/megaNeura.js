@@ -6,6 +6,17 @@ function getCoords(event) {
 	return [x, y];
 }
 
+function checkHit(eX, eY, sprite) {
+	if (eX >= sprite.x + 60
+		&& eX <= sprite.x + (sprite.w - 60)
+		&& eY >= sprite.y + 60
+		&& eY <= sprite.y + (sprite.h - 40)) {
+		return true;
+	}
+	return false;
+}
+
+
 // Spider
 class Spider {
 	constructor(x, y, w, h, animX, animY, timerAnim, src) {
@@ -125,28 +136,23 @@ function setAim(event, aim) {
 	[aim.x, aim.y] = getCoords(event);
 }
 
-
 // Exploslon
-function createExplosion(e, explosion, w, h, spider) {
+function createExplosion(e, explosion, w, h, spiders, spidersHP) {
 
 	const [eX, eY] = getCoords(e);
-
-	if (eX >= spider.x
-		&& eX <= spider.x + spider.w
-		&& eY >= spider.y
-		&& eY <= spider.y + spider.h) {
-		explosion.push({
-			x: eX - w / 2,
-			y: eY - h / 2,
-			w,
-			h,
-			animX: 0,
-			animY: 0
-		});
-		spider.w = 0;
-		setTimeout(() => {
-			spider.hp = false;
-		}, 1000);
+	for (const spider of spiders) {
+		if (checkHit(eX, eY, spider)) {
+			explosion.push({
+				x: eX - w / 2,
+				y: eY - h / 2,
+				w,
+				h,
+				animX: 0,
+				animY: 0
+			});
+			spider.w = 0;
+			spidersHP.count--;
+		}
 	}
 
 };
