@@ -1,4 +1,12 @@
 'use strict'
+
+function getCoords(event) {
+	let x = event.pageX - canvas.getBoundingClientRect().x - document.documentElement.scrollLeft;
+	let y = event.pageY - canvas.getBoundingClientRect().y - document.documentElement.scrollTop;
+	return [x, y];
+}
+
+// Spider
 class Spider {
 	constructor(x, y, w, h, animX, animY, timerAnim, src) {
 		this.x = x;
@@ -10,11 +18,50 @@ class Spider {
 		this.timerAnim = timerAnim;
 		this.img = new Image();
 		this.img.src = src;
+		this.timer = 30;
 		this.hp = true;
 	}
 
 }
 
+function renderSpider(
+	ctx,
+	spriteImg,
+	segmentWidth,
+	segmentHeight,
+	spriteX,
+	spriteY,
+	spriteWidth,
+	spriteHeight,
+	spriteAnimX,
+	spriteAnimY
+) {
+	ctx.drawImage(
+		spriteImg,
+		segmentWidth * Math.floor(spriteAnimX),
+		segmentHeight * spriteAnimY,
+		segmentWidth,
+		segmentHeight,
+		spriteX,
+		spriteY,
+		spriteWidth,
+		spriteHeight
+	);
+};
+
+function updateSpider(sprite, gor, vert, vel = 1) {
+	sprite.animX += vel;
+	if (sprite.animX >= gor) {
+		sprite.animY++;
+		sprite.animX = 0;
+	}
+	if (sprite.animY >= vert) {
+		sprite.animY = 0;
+	}
+};
+
+
+// Aim
 function drawAim(ctx, aim) {
 	ctx.save();
 
@@ -74,10 +121,15 @@ function drawAim(ctx, aim) {
 	ctx.restore();
 }
 
+function setAim(event, aim) {
+	[aim.x, aim.y] = getCoords(event);
+}
+
+
+// Exploslon
 function createExplosion(e, explosion, w, h, spider) {
 
-	const eX = e.pageX - canvas.getBoundingClientRect().x - document.documentElement.scrollLeft;
-	const eY = e.pageY - canvas.getBoundingClientRect().y - document.documentElement.scrollTop;
+	const [eX, eY] = getCoords(e);
 
 	if (eX >= spider.x
 		&& eX <= spider.x + spider.w
@@ -91,7 +143,7 @@ function createExplosion(e, explosion, w, h, spider) {
 			animX: 0,
 			animY: 0
 		});
-		spider.w = 0; 
+		spider.w = 0;
 		setTimeout(() => {
 			spider.hp = false;
 		}, 1000);
@@ -120,28 +172,4 @@ function updateExplosion(explosion, gor, vert, vel = 1) {
 			explosion.splice(i--, 1);
 		}
 	}
-};
-
-function renderSprite(ctx, spriteImg, segmentWidth, segmentHeight, spriteX, spriteY, spriteWidth, spriteHeight, spriteAnimX, spriteAnimY) {
-	ctx.drawImage(
-		spriteImg, segmentWidth * Math.floor(spriteAnimX),
-		segmentHeight * Math.floor(spriteAnimY), segmentWidth, segmentHeight,
-		spriteX, spriteY, spriteWidth, spriteHeight
-	);
-};
-
-function updateSprite(sprite, gor, vert, vel = 1) {
-	sprite.animX += vel;
-	if (sprite.animX >= gor) {
-		sprite.animY++;
-		sprite.animX = 0;
-	}
-	if (sprite.animY >= vert) {
-		sprite.animY = 0;
-	}
-};
-
-function setAim(event, aim) {
-	aim.x = event.pageX - canvas.getBoundingClientRect().x - document.documentElement.scrollLeft;
-	aim.y = event.pageY - canvas.getBoundingClientRect().y - document.documentElement.scrollTop;
 }

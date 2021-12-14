@@ -59,22 +59,32 @@ window.onload = () => {
 
     function render() {
         ctx.drawImage(grassImg, 0, 0, canvas.width, canvas.height);
-        if (spider.timer > 0) {
-            renderSprite(ctx, spider.img, 128, 128, spider.x, spider.y, spider.w, spider.h, spider.animX, spider.animY);
-        }
+        renderSpider(ctx,
+            spider.img,
+            128,
+            128,
+            spider.x,
+            spider.y,
+            spider.w,
+            spider.h,
+            spider.animX,
+            spider.animY
+        );
         renderExplosion(ctx, explosion, expl, 341.3, 364);
         drawAim(ctx, aim);
     };
 
     function update() {
+
         if (spider.timer > 0) {
-            updateSprite(spider, 32, 8, 0.3);
+            updateSpider(spider, 32, 8, 0.3);
             spider.timer--;
         } else {
-            // spider.x = Math.random() * (canvas.width - 200);
-            // spider.y = Math.random() * (canvas.height - 150);
+            spider.x = Math.random() * (canvas.width - 200);
+            spider.y = Math.random() * (canvas.height - 150);
             spider.timer = 30;
         }
+
         updateExplosion(explosion, 3, 2, 0.3);
     };
 }
