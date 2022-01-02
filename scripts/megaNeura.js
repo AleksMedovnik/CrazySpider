@@ -19,18 +19,16 @@ function checkHit(eX, eY, sprite) {
 
 // Spider
 class Spider {
-	constructor(x, y, w, h, animX, animY, timerAnim, src) {
+	constructor(x, y, w, h, animX, animY, src, timer) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
 		this.animX = animX;
 		this.animY = animY;
-		this.timerAnim = timerAnim;
 		this.img = new Image();
 		this.img.src = src;
-		this.timer = 30;
-		this.hp = true;
+		this.timer = timer;
 	}
 
 }

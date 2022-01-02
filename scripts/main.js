@@ -24,9 +24,9 @@ const gameStart = () => {
             150,
             150,
             i,
-            i,
-            50,
+            0,
             './images/spider.png',
+            35 + i,
         ));
     }
 
@@ -50,7 +50,7 @@ const gameStart = () => {
             render();
             anim = requestAnimationFrame(animation);
         } else {
-            const play = confirm('You Win!!! Play Again?');
+            const play = confirm('You Won!!! Play Again?');
             if (play) {
                 gameStart();
             } else {
@@ -85,14 +85,14 @@ const gameStart = () => {
                 game = false;
             }, 1000);
         }
-        for (const spider of spiders) {
-            if (spider.timer > 0) {
-                updateSpider(spider, 32, 8, 0.3);
-                spider.timer--;
+        for (let i = 0; i < spiders.length; i++) {
+            if (spiders[i].timer > 0) {
+                updateSpider(spiders[i], 32, 8, 0.3);
+                spiders[i].timer--;
             } else {
-                spider.x = Math.random() * (canvas.width - 70) - 40;
-                spider.y = Math.random() * (canvas.height - 50) - 80;
-                spider.timer = 50;
+                spiders[i].x = Math.random() * (canvas.width - 70) - 40;
+                spiders[i].y = Math.random() * (canvas.height - 50) - 80;
+                spiders[i].timer = 35 + i;
             }
         }
 
