@@ -58,9 +58,9 @@ function renderSpider(
 	);
 };
 
-function updateSpider(sprite, gor, vert, vel = 1) {
+function updateSpider(sprite, hor, vert, vel = 1) {
 	sprite.animX += vel;
-	if (sprite.animX >= gor) {
+	if (sprite.animX >= hor) {
 		sprite.animY++;
 		sprite.animX = 0;
 	}
