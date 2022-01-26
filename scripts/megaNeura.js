@@ -135,10 +135,11 @@ function setAim(event, aim) {
 }
 
 // Exploslon
-function createExplosion(e, explosion, w, h, spiders, spidersHP) {
+function createExplosion(e, explosion, w, h, spiders) {
 
 	const [eX, eY] = getCoords(e);
-	for (const spider of spiders) {
+	for (let i = 0; i < spiders.length; i++) {
+		const spider = spiders[i];
 		if (checkHit(eX, eY, spider)) {
 			explosion.push({
 				x: eX - w / 2,
@@ -148,11 +149,9 @@ function createExplosion(e, explosion, w, h, spiders, spidersHP) {
 				animX: 0,
 				animY: 0
 			});
-			spider.w = 0;
-			spidersHP.count--;
+			spiders.splice(i--, 1);
 		}
 	}
-
 };
 
 function renderExplosion(ctx, explosion, explImg, w, h) {

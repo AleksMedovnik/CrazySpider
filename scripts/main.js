@@ -8,7 +8,6 @@ const gameStart = () => {
     canvas.height = 300;
 
     const spiders = [];
-    const spidersHP = { count: 10 };
     const explosion = [];
     let game = true;
 
@@ -17,7 +16,7 @@ const gameStart = () => {
         y: canvas.height / 2
     };
 
-    for (let i = 0; i < spidersHP.count; i++) {
+    for (let i = 0; i < 10; i++) {
         spiders.push(new Spider(
             Math.random() * (canvas.width - 70) - 40,
             Math.random() * (canvas.height - 50) - 80,
@@ -38,7 +37,7 @@ const gameStart = () => {
 
     canvas.addEventListener('mousemove', (e) => setAim(e, aim));
     canvas.addEventListener('click', (e) => {
-        createExplosion(e, explosion, 100, 100, spiders, spidersHP);
+        createExplosion(e, explosion, 100, 100, spiders);
     });
 
     animation();
@@ -76,7 +75,7 @@ const gameStart = () => {
 
     function update() {
 
-        if (spidersHP.count <= 0) {
+        if (spiders.length === 0) {
             setTimeout(() => {
                 game = false;
             }, 1000);
