@@ -16,9 +16,13 @@ function checkHit(eX, eY, sprite) {
 	return false;
 }
 
+export function random(min, max) {
+    return min + Math.random() * (max - min);
+}
+
 
 // Spider
-class Spider {
+export class Spider {
 	constructor(x, y, w, h, animX, animY, src, timer) {
 		this.x = x;
 		this.y = y;
@@ -33,7 +37,7 @@ class Spider {
 
 }
 
-function renderSpider(
+export function renderSpider(
 	ctx,
 	spriteImg,
 	segmentWidth,
@@ -58,7 +62,7 @@ function renderSpider(
 	);
 };
 
-function updateSpider(sprite, hor, vert, vel = 1) {
+export function updateSpider(sprite, hor, vert, vel = 1) {
 	sprite.animX += vel;
 	if (sprite.animX >= hor) {
 		sprite.animY++;
@@ -71,7 +75,7 @@ function updateSpider(sprite, hor, vert, vel = 1) {
 
 
 // Aim
-function drawAim(ctx, aim) {
+export function drawAim(ctx, aim) {
 	ctx.save();
 
 	ctx.fillStyle = 'rgba(219, 20, 20, 1)';
@@ -130,12 +134,12 @@ function drawAim(ctx, aim) {
 	ctx.restore();
 }
 
-function setAim(event, aim) {
+export function setAim(event, aim) {
 	[aim.x, aim.y] = getCoords(event);
 }
 
 // Exploslon
-function createExplosion(e, explosion, w, h, spiders) {
+export function createExplosion(e, explosion, w, h, spiders) {
 
 	const [eX, eY] = getCoords(e);
 	for (let i = 0; i < spiders.length; i++) {
@@ -154,7 +158,7 @@ function createExplosion(e, explosion, w, h, spiders) {
 	}
 };
 
-function renderExplosion(ctx, explosion, explImg, w, h) {
+export function renderExplosion(ctx, explosion, explImg, w, h) {
 	for (let i = 0; i < explosion.length; i++) {
 		ctx.drawImage(
 			explImg, w * Math.floor(explosion[i].animX),
@@ -164,7 +168,7 @@ function renderExplosion(ctx, explosion, explImg, w, h) {
 	};
 };
 
-function updateExplosion(explosion, gor, vert, vel = 1) {
+export function updateExplosion(explosion, gor, vert, vel = 1) {
 	for (let i = 0; i < explosion.length; i++) {
 		explosion[i].animX += vel;
 		if (explosion[i].animX >= gor) {

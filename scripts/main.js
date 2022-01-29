@@ -1,4 +1,10 @@
 "use strict"
+
+import {
+    Spider, createExplosion, renderSpider, setAim,
+    renderExplosion, random, updateSpider, updateExplosion, drawAim
+} from "./megaNeura.js";
+
 const gameStart = () => {
 
     const canvas = document.getElementById('canvas');
@@ -18,8 +24,8 @@ const gameStart = () => {
 
     for (let i = 0; i < 10; i++) {
         spiders.push(new Spider(
-            Math.random() * (canvas.width - 70) - 40,
-            Math.random() * (canvas.height - 50) - 80,
+            random(-50, canvas.width - 100),
+            random(-50, canvas.height - 150),
             150,
             150,
             i,
@@ -85,8 +91,8 @@ const gameStart = () => {
                 updateSpider(spiders[i], 32, 8, 0.3);
                 spiders[i].timer--;
             } else {
-                spiders[i].x = Math.random() * (canvas.width - 70) - 40;
-                spiders[i].y = Math.random() * (canvas.height - 50) - 80;
+                spiders[i].x = random(-50, canvas.width - 100);
+                spiders[i].y = random(-50, canvas.height - 150);
                 spiders[i].timer = 35 + i;
             }
         }
@@ -96,24 +102,3 @@ const gameStart = () => {
 
 }
 window.onload = gameStart;
-
-
-
-/* 
-Встроенный метод Math.random() возвращает случайное число от 0 (включительно) 
-до 1 (но не включая 1)
-
-Напишите функцию random(min, max), которая генерирует случайное число с 
-плавающей точкой от min до max (но не включая max).
-
-Пример работы функции:
-
-alert( random(1, 5) ); // 1.2345623452
-alert( random(1, 5) ); // 3.7894332423
-alert( random(1, 5) ); // 4.3435234525
-*/
-
-
-/* function random(min, max) {
-    return min + Math.random() * (max - min);
-} */
