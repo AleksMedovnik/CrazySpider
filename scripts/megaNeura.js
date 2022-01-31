@@ -6,18 +6,21 @@ function getCoords(event) {
 	return [x, y];
 }
 
-function checkHit(eX, eY, sprite) {
-	if (eX >= sprite.x + 60
-		&& eX <= sprite.x + (sprite.w - 60)
-		&& eY >= sprite.y + 60
-		&& eY <= sprite.y + (sprite.h - 40)) {
-		return true;
+export function checkHit(e, spiders) {
+	const [eX, eY] = getCoords(e);
+	for (let i = 0; i < spiders.length; i++) {
+		const spider = spiders[i];
+		if (eX >= spider.x + 60
+			&& eX <= spider.x + (spider.w - 60)
+			&& eY >= spider.y + 60
+			&& eY <= spider.y + (spider.h - 40)) {
+			spiders.splice(i--, 1);
+		}
 	}
-	return false;
 }
 
 export function random(min, max) {
-    return min + Math.random() * (max - min);
+	return min + Math.random() * (max - min);
 }
 
 
@@ -139,23 +142,16 @@ export function setAim(event, aim) {
 }
 
 // Exploslon
-export function createExplosion(e, explosion, w, h, spiders) {
-
+export function createExplosion(e, explosion, w, h) {
 	const [eX, eY] = getCoords(e);
-	for (let i = 0; i < spiders.length; i++) {
-		const spider = spiders[i];
-		if (checkHit(eX, eY, spider)) {
-			explosion.push({
-				x: eX - w / 2,
-				y: eY - h / 2,
-				w,
-				h,
-				animX: 0,
-				animY: 0
-			});
-			spiders.splice(i--, 1);
-		}
-	}
+	explosion.push({
+		x: eX - w / 2,
+		y: eY - h / 2,
+		w,
+		h,
+		animX: 0,
+		animY: 0
+	})
 };
 
 export function renderExplosion(ctx, explosion, explImg, w, h) {

@@ -2,7 +2,7 @@
 
 import {
     Spider, createExplosion, renderSpider, setAim,
-    renderExplosion, random, updateSpider, updateExplosion, drawAim
+    renderExplosion, random, updateSpider, updateExplosion, drawAim, checkHit
 } from "./megaNeura.js";
 
 const gameStart = () => {
@@ -41,10 +41,11 @@ const gameStart = () => {
     const grassImg = new Image();
     grassImg.src = './images/grass.jpg';
 
-    canvas.addEventListener('mousemove', (e) => setAim(e, aim));
-    canvas.addEventListener('click', (e) => {
-        createExplosion(e, explosion, 100, 100, spiders);
+    canvas.addEventListener('mousemove', e => setAim(e, aim));
+    canvas.addEventListener('click', e => {
+        createExplosion(e, explosion, 100, 100);
     });
+    canvas.addEventListener('click', e => checkHit(e, spiders));
 
     animation();
 
